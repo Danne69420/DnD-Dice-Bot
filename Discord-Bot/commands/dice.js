@@ -13,7 +13,8 @@ module.exports = {
 		.setName('roll-dice')
 		.setDescription('Rolls a six-sided dice'),
 	async execute(interaction) {
-
-		await interaction.reply(dice.roll().toString());
-	},
+    await interaction.reply("rolling...");
+    await setTimeout(dice.roll, 2000);    
+    await interaction.editReply(dice.roll().toString());
+},
 };
