@@ -16,7 +16,7 @@ module.exports = {
 		.setDescription('Rolls a six-sided dice, secretly'),
 	async execute(interaction) {
         await interaction.reply({ content: "rolling...", ephemeral: true} );
-        await setTimeout(dice.roll(), 2000);    
+        await setTimeout(dice.roll(), 3000);    
 		await interaction.editReply({ content: dice.roll().toString(), ephemeral: true });
 	}
 };

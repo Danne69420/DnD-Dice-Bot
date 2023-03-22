@@ -14,7 +14,7 @@ module.exports = {
 		.setDescription('Rolls a six-sided dice'),
 	async execute(interaction) {
     await interaction.reply("rolling...");
-    await setTimeout(dice.roll, 2000);    
+    await setTimeout(dice.roll, 3000);    
     await interaction.editReply(dice.roll().toString());
 },
 };
