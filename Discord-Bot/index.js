@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, } = require('discord.js');
 const { token } = require("./config.json");
+const { Console } = require('node:console');
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 //Add .commands property to client instance to access commands in other files.
@@ -27,38 +28,24 @@ for (const file of commandFiles) {
 	}
 }
 
-// When the client is ready, run this code (only once)
-// We use 'c' for the event parameter to keep it separate from the already defined 'client'
-client.once(Events.ClientReady, c => {
-	console.log(`Ready! Logged in as ${c.user.tag}`);
-});
+//construct a path to the events directory
+const eventsPath = path.join(__dirname, 'events');
+//construct an array of file names of all js files in the events dirctory
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
-client.on(Events.InteractionCreate, async interaction => {
-	//returns function if input is not a /command
-	if (!interaction.isChatInputCommand()) return;
-
-
-	//command is a string if interaction.commandName matches a string in commands, but if it does not match anything it is a boolean set to false. I think. Dynamically typed languages confuse me.
-	const command = interaction.client.commands.get(interaction.commandName);
-
-
-	//if the command used in the interaction (what the user types into discord) does not match the any of the commands in the commands folder
-	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
-		return;
+//foreach loop to register all events and setup event listeners
+for (const file of eventFiles) {
+	//makes the full path of the file
+	const filePath = path.join(eventsPath, file);
+	//imports the event
+	const event = require(filePath);
+	//events either happen once or multiple times. if once: is set to true in the event file it only happens once, otherwise client.on is used to listen for the event. 
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
 	}
-	//tries to excecute the command. Needs to send interaction along so the excecute function can interact back with the user. Catches and logs any errors
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-		} else {
-			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-		}
-	}
-});
+}
 
 // Log in to Discord with your client's token
 client.login(token);
