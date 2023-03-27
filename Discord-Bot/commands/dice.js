@@ -2,11 +2,12 @@ const { SlashCommandBuilder } = require('discord.js');
 
 var dice = {
     roll: function (diceArgs) {
+      //if input is in correct the format (XdX) the array will always have 2 elements. ToDo: somehow check if input format is correct before command is sent. 
       if (diceArgs.length == 2){
         var sides = diceArgs[1];
         var numberOfDice = diceArgs[0];
         var totalResult = 0;
-        
+        //if the number of dice is omitted we roll one dice
         if (numberOfDice == 0){
           numberOfDice = 1;
         }
