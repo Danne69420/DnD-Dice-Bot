@@ -6,15 +6,18 @@ var dice = {
         var sides = diceArgs[1];
         var numberOfDice = diceArgs[0];
         var totalResult = 0;
+        
         if (numberOfDice == 0){
           numberOfDice = 1;
         }
+        var individualResults = [];
         for (let i = 0; i < numberOfDice; i++){
           var randomNumber = Math.floor(Math.random() * sides) + 1;
           totalResult += randomNumber;
+          individualResults[i] = randomNumber;
         }
-
-        return totalResult;
+        const returnString = new String('Individual dice results: ' + individualResults.join(" ") + '\n Total: ' + totalResult);
+        return returnString;
       }
       else{
         return "Wrong input format"
@@ -35,7 +38,7 @@ module.exports = {
     const diceArgs = input.split("d");
 
     await interaction.reply("rolling...");
-    await setTimeout(editReply, 3000);
+    await setTimeout(editReply, 2000);
     function editReply(){
       interaction.editReply(dice.roll(diceArgs).toString());
     }
