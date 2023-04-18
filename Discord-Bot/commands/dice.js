@@ -6,7 +6,7 @@ var dice = {
 
 
       const roll = new rpgDiceRoller.DiceRoll(input);
-      return roll;
+      return roll.output;
     }
   }
 
