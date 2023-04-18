@@ -35,7 +35,7 @@ var dice = {
         if(plusArg.length != 1){
           totalResult += parseInt(plusArg[1]);        
         }
-        const returnString = new String('Individual dice results: ' + individualResults.join(" ") + '\n Total: ' + totalResult);
+        const returnString = new String('input: ' + input + '\n Individual dice results: ' + individualResults.join(" ") + '\n Total: ' + totalResult);
         return returnString;
       }
       else{

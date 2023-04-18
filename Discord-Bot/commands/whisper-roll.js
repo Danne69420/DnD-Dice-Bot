@@ -1,4 +1,4 @@
-//Same as regular dice roll, but only the executer of the command can see the response
+//Same as regular dice roll, but only the executer of the command can see the response. REMEMBER TO UPDATE THIS!
 
 const { SlashCommandBuilder } = require('discord.js');
 
