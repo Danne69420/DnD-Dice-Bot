@@ -18,11 +18,12 @@ PDFParser = require("pdf2json");
             });        
             pdfParser.loadPDF("./PDFs/DnD_5E_CharacterSheet_FormFillable.pdf");
             await interaction.reply("Send the file you want to upload as an attachment. Remember to @ the bot!");
-            // Create a message collector
+            // Create a message collector. We collect one message that mentions the bot. 
             const collectorFilter = m => m.mentions.has(clientId);
             const collector = interaction.channel.createMessageCollector({filter: collectorFilter, max: 1 });
             await collector.on('collect', m => {
                 console.log("message collected");
+                //save the message.attachments object in a json file.
                 fs.writeFile("./PDFs/attachment.json", JSON.stringify(m.attachments), ()=>{console.log("attachment saved")});
                 interaction.editReply("File recieved!");
             });
