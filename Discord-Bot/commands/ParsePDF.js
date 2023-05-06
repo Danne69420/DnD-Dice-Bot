@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
-
+const { clientId } = require('C:/Users/daniel.kindvall/Documents/GitHub/DnD-Dice-Bot/Discord-Bot/config.json');
 const fs = require('fs'),
-        PDFParser = require("pdf2json");
+PDFParser = require("pdf2json");
 
 
 
@@ -17,11 +17,15 @@ const fs = require('fs'),
                 fs.writeFile("./PDFs/DnD_5E_CharacterSheet_FormFillable.json", JSON.stringify(pdfData), ()=>{console.log("Done.");});
             });        
             pdfParser.loadPDF("./PDFs/DnD_5E_CharacterSheet_FormFillable.pdf");
-            await interaction.reply("Working!");
+            await interaction.reply("Send the file you want to upload as an attachment. Remember to @ the bot!");
             // Create a message collector
-            const filter = m => m.content.includes('discord');
-            const collector = interaction.channel.createMessageCollector({ time: 15_000 });
-            collector.on('collect', m => console.log(`Collected ${m.content}`));
+            const collectorFilter = m => m.mentions.has(clientId);
+            const collector = interaction.channel.createMessageCollector({filter: collectorFilter, max: 1 });
+            await collector.on('collect', m => {
+                console.log("message collected");
+                fs.writeFile("./PDFs/attachment", JSON.stringify(m.attachments), ()=>{console.log("attachment saved")});
+                interaction.editReply("File recieved!");
+            });
             collector.on('end', collected => console.log(`Collected ${collected.size} items`));
         }
     }
