@@ -23,7 +23,7 @@ PDFParser = require("pdf2json");
             const collector = interaction.channel.createMessageCollector({filter: collectorFilter, max: 1 });
             await collector.on('collect', m => {
                 console.log("message collected");
-                fs.writeFile("./PDFs/attachment", JSON.stringify(m.attachments), ()=>{console.log("attachment saved")});
+                fs.writeFile("./PDFs/attachment.json", JSON.stringify(m.attachments), ()=>{console.log("attachment saved")});
                 interaction.editReply("File recieved!");
             });
             collector.on('end', collected => console.log(`Collected ${collected.size} items`));
