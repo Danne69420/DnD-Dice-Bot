@@ -6,7 +6,7 @@ const { Client, Collection, Events, GatewayIntentBits, } = require('discord.js')
 const { token } = require("./config.json");
 const { Console } = require('node:console');
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [[GatewayIntentBits.Guilds], [GatewayIntentBits.GuildMessages]] });
 //Add .commands property to client instance to access commands in other files.
 //The Collection class extends JavaScript's native Map class, and includes more extensive, useful functionality. Collection is used to store and efficiently retrieve commands for execution.
 client.commands = new Collection();

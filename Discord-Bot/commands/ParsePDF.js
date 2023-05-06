@@ -18,5 +18,10 @@ const fs = require('fs'),
             });        
             pdfParser.loadPDF("./PDFs/DnD_5E_CharacterSheet_FormFillable.pdf");
             await interaction.reply("Working!");
+            // Create a message collector
+            const filter = m => m.content.includes('discord');
+            const collector = interaction.channel.createMessageCollector({ time: 15_000 });
+            collector.on('collect', m => console.log(`Collected ${m.content}`));
+            collector.on('end', collected => console.log(`Collected ${collected.size} items`));
         }
     }
