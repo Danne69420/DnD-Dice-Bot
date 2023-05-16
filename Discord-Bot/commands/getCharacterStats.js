@@ -10,7 +10,6 @@ module.exports ={
 			    .setDescription('the name of the character whose stats you want to view')
                 .setRequired(true)),
     async execute(interaction) {
-        await interaction.reply(interaction.options.getString('character'));
         
         let characterName = interaction.options.getString('character');
         characterName = characterName.replace(/\s/g, "_")
@@ -20,7 +19,14 @@ module.exports ={
                 return;
             }
             const character = JSON.parse(jsonString);
-            console.log(character[46]);
+            let replyString = "";
+            for(let i = 0; i < character.length; i++){
+                if(character[i].type === 'alpha' && character[i].value != ''){
+                    console.log(character[i].id + ": " + character[i].value);
+                    replyString += "\n" + character[i].id + ": " + character[i].value;
+                }
+            }
+            interaction.reply(replyString);
         })
 
     },

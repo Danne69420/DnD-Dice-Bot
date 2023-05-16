@@ -13,7 +13,7 @@ var dice = {
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('roll-dice')
-		.setDescription('Rolls a six-sided dice')
+		.setDescription('Rolls a user specified dice')
     .addStringOption( option =>
       option.setName('input')
         .setDescription('the dice to roll (XdX)')
