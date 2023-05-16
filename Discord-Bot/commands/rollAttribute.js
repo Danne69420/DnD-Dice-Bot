@@ -47,6 +47,10 @@ module.exports = {
         const character = JSON.parse(jsonString);
         for (let i = 0; i < character.length; i++){
             if(character[i].id === attribute){
+                if(character[i].value = "0"){
+                    diceRoll = "d20";
+                    return;
+                }
                 diceRoll = "d20" + character[i].value;
                 return;
             }
@@ -55,7 +59,7 @@ module.exports = {
     await interaction.reply("rolling...");
     await setTimeout(editReply, 2000);
     function editReply(){
-      interaction.editReply(dice.roll(diceRoll).toString());
+      interaction.editReply(interaction.options.getString('character') + ", " + attribute + ": " + dice.roll(diceRoll).toString());
     }
 },
 };
