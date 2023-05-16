@@ -44,15 +44,18 @@ module.exports = {
             console.log("File Read Failed:", err )
             return;
         }
+        //this array will contain a array of all the stats of the character
         const character = JSON.parse(jsonString);
         for (let i = 0; i < character.length; i++){
             if(character[i].id === attribute){
-                if(character[i].value = "0"){
+                if(character[i].value === "0"){
                     diceRoll = "d20";
                     return;
                 }
-                diceRoll = "d20" + character[i].value;
-                return;
+                else{
+                    diceRoll = "d20" + character[i].value;
+                    return;    
+                }
             }
         }
     })
