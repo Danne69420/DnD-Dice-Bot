@@ -25,7 +25,7 @@ module.exports = {
 	async execute(interaction) {
     var input = interaction.options.getString('input');
     let ephemeral = interaction.options.getBoolean('whisper');
-    console.log(ephemeral);
+    console.log("whisper: ", ephemeral);
 
     await interaction.reply({content: "rolling...", ephemeral: ephemeral});
     await setTimeout(editReply, 2000);

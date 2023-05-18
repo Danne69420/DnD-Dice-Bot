@@ -3,6 +3,7 @@ const fs = require('node:fs');
 //The path module is Node's native path utility module. path helps construct paths to access files and directories.
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, } = require('discord.js');
+//token is basically a password  for the bot
 const { token } = require("./config.json");
 const { Console } = require('node:console');
 // Create a new client instance
