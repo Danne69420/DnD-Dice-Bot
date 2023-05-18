@@ -17,14 +17,20 @@ module.exports = {
     .addStringOption( option =>
       option.setName('input')
         .setDescription('the dice to roll (XdX)')
-        .setRequired(true)),
+        .setRequired(true))
+    .addBooleanOption( option =>
+      option.setName('whisper')
+      .setDescription('Send privately?')
+      .setRequired(false)),
 	async execute(interaction) {
     var input = interaction.options.getString('input');
+    let ephemeral = interaction.options.getBoolean('whisper');
+    console.log(ephemeral);
 
-    await interaction.reply("rolling...");
+    await interaction.reply({content: "rolling...", ephemeral: ephemeral});
     await setTimeout(editReply, 2000);
     function editReply(){
-      interaction.editReply(dice.roll(input).toString());
+      interaction.editReply({content: dice.roll(input).toString(), ephemeral: ephemeral});
     }
 },
 };
