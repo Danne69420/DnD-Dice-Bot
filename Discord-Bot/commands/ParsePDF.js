@@ -13,12 +13,14 @@ const https = require("https");
         async execute(interaction){
             const pdfParser = new PDFParser();
 
-            await interaction.reply("Send the file you want to upload as an attachment. Remember to @ the bot!");
+            await interaction.reply("Send the file you want to upload as an attachment. Make sure the name of the file is the same as the name of your character. Remember to @ the bot!");
             // Create a message collector. We collect one message that mentions the bot. 
             const collectorFilter = m => m.mentions.has(clientId);
-            const collector = interaction.channel.createMessageCollector({filter: collectorFilter, max: 1 });
+            const collector = interaction.channel.createMessageCollector({filter: collectorFilter, max: 1, time: 60000 });
+            let collectorTimeOut = true;
             //pretty sure this function is absolutely terrible. There is definately a much cleaner and better performing way to do this. 
             await collector.on('collect', m => {
+                collectorTimeOut = false;
                 console.log("message collected");
                 //save the message.attachments object in a json file. This feels like a stupid way to do this but nothing else i've tried has worked.
                 fs.writeFile("./PDFs/attachment.json", JSON.stringify(m.attachments), () => { console.log("attachment saved"); });
@@ -84,6 +86,11 @@ const https = require("https");
                 });
                 interaction.editReply("File recieved!");
             });
-            collector.on('end', collected => console.log(`Collected ${collected.size} items`));
+            collector.on('end', collected =>{
+            console.log(`Collected ${collected.size} items`);
+            if(collectorTimeOut){
+                interaction.editReply("Request timed out, please try again")
+            }
+            })
         }
     }
